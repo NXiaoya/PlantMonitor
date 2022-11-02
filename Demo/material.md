@@ -1,1 +1,7 @@
-Show
+![schematic](https://github.com/NXiaoya/PlantMonitor/blob/main/Demo/schematic.jpg)
+![Assembled](https://github.com/NXiaoya/PlantMonitor/blob/main/Demo/Assembled.jpg)
+![Grafana](https://github.com/NXiaoya/PlantMonitor/blob/main/Demo/Grafana.jpg)
+![MQTTBuzzer](https://github.com/NXiaoya/PlantMonitor/blob/main/Demo/MQTTbuzzer.jpg)
+![BuzzerCode](https://github.com/NXiaoya/PlantMonitor/blob/main/Demo/BuzzerCode.jpg)
+![FeatherWithBuzzer](https://github.com/NXiaoya/PlantMonitor/blob/main/Demo/full.jpg)
+![CloseLook](https://github.com/NXiaoya/PlantMonitor/blob/main/Demo/with%20buzzer.jpg)

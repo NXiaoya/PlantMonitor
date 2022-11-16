@@ -10,8 +10,8 @@
     Xiaoya Nie_edit the code
     Oct 2022
 */
-//add the library
 
+//add the library
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 #include <ezTime.h>
@@ -28,7 +28,7 @@ float Temperature;
 float Humidity;
 int Moisture = 1; // initial value just in case web page is loaded before readMoisture called
 int sensorVCC = 13;
-int buzzer = 15;
+int buzzer = 15;    //Add pin 15 for buzzer
 int blueLED = 2;
 int LEDM = 14;//LED for moisture
 int LEDH = 16;//LED for humidity1
@@ -36,6 +36,8 @@ DHT dht(DHTPin, DHTTYPE);   // Initialize DHT sensor.
 
 
 // Wifi and MQTT
+//The secert file stores the password of Wifi and MQTT key
+//Please create your own arduino_secrets file
 #include "arduino_secrets.h" 
 
 const char* ssid     = SECRET_SSID;
@@ -55,7 +57,7 @@ int value = 0;
 Timezone GB;
 
 
-
+//Set up funcyion
 void setup() {
   // Set up LED to be controllable via broker
   // Initialize the BUILTIN_LED pin as an output
@@ -109,7 +111,8 @@ void setup() {
 void loop() {
   // handler for receiving requests to webserver
   server.handleClient();
-
+  
+  //Send data of readinng when the minite changed
   if (minuteChanged()) {
     readMoisture();
     sendMQTT();
@@ -119,6 +122,7 @@ void loop() {
   client.loop();
 }
 
+//function to start the alarm buzzer
 void BuzzerM(){
    //Use tone function to generate wave at certain frequency
    digitalWrite(LEDM, HIGH);
@@ -138,7 +142,6 @@ void BuzzerM(){
    tone(buzzer,556);
    delay(500); 
 
-     //Use tone function to generate wave at certain frequency
    tone(buzzer,441);
    delay(500); //wait 500ms
    
@@ -194,6 +197,7 @@ void BuzzerH(){
 
 }
 
+//The Buzzer clear function to stop the buzzer
 void BuzzerC(){
   
    noTone(buzzer);//Stop the buzzer
@@ -203,7 +207,7 @@ void BuzzerC(){
 
 }
 
-
+//Read the moisture level 
 void readMoisture(){
   
   // power the sensor
@@ -217,6 +221,7 @@ void readMoisture(){
   delay(100);
   Serial.print("Wet ");
   Serial.println(Moisture);   // read the value from the nails
+  //Check the moisture level, if it is too low then start the alarm
   if(Moisture<20)
   {
     BuzzerM();
@@ -252,8 +257,9 @@ void syncDate() {
 
 }
 
+//Send Data to MQTT client
 void sendMQTT() {
-
+//Reconnct to MQTT if connection failed
   if (!client.connected()) {
     reconnect();
   }
@@ -266,6 +272,7 @@ void sendMQTT() {
   client.publish("student/CASA0014/plant/ucfnnie/temperature", msg);
 
   Humidity = dht.readHumidity(); // Gets the values of the humidity
+  //Check the humidity level, if it is too low then start the alarm
   if(Humidity<40)
   {
     BuzzerH();
@@ -355,7 +362,7 @@ void handle_OnConnect() {
 void handle_NotFound() {
   server.send(404, "text/plain", "Not found");
 }
-
+//The reading can be viewed in local host HTML
 String SendHTML(float Temperaturestat, float Humiditystat, int Moisturestat) {
   String ptr = "<!DOCTYPE html> <html>\n";
   ptr += "<head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\">\n";

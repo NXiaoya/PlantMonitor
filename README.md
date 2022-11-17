@@ -44,8 +44,8 @@ The resistance between two nails from a certain distance can reflect the moistur
 One of the nails is connected to Analogue A0 pin and another is connected to D13 digital I/O pin (Act as sensor V_CC  ). The reading is an analogue value from 0 to 1024.
 ### Get the sensor reading
 The circuit was first tested on bread board. I used Arduino IDE to configure all the pin set up. DHT library is installed to translate the serial data to temperature and moisture value.
-The Arduino IDE is used.
-The first step is inlcude the libary need and configure the pin used:
+
+The Arduino IDE is used. The first step is inlcude the libary need and configure the pin used:
 
     // Define the pin name
     uint8_t DHTPin = 12;        // on Pin 2 of the Huzzah
@@ -81,9 +81,13 @@ In this system, WIFI module connect to the Cloud via MQTT protocol. MQTT is a pu
 ![MQTT](https://github.com/NXiaoya/PlantMonitor/blob/main/img/MQTT.jpg)
 
 The code should also be set up in Arduino with WIFI. Firstly, the ESP8266 will be connected to WIFI. After connection to wifi is successful, it will then connected to MQTT client. Therefore, the key for both WIFI and MQTT client is needed:
+
     #define SECRET_SSID "ssid name"
+    
     #define SECRET_PASS "ssid password"
+    
     #define SECRET_MQTTUSER "user name"
+    
     #define SECRET_MQTTPASS "password";
  
 Connect to Wifi:
@@ -91,6 +95,7 @@ Connect to Wifi:
     WiFi.begin(ssid, password);
 
 Sending data from MQTT(Example temperature):
+
        //In setup, start MQTT server
       client.setServer(mqtt_server, 1884);
       //In functions read data
@@ -127,6 +132,7 @@ remote configuration on RPi can be achieved using Putty.
 I use InfluxDB, which us a Time Series Data Platform where developers build IoT, analytics, and cloud applications.
 To get the data from MQTT client, I also download Telegraf.
 The data is pushed in to a bucket called MQTT. The correspongding api tocken and topic subscribed need to be added.
+
       ###############################################################################
       #                            OUTPUT PLUGINS                                   #
       ###############################################################################
